@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Main1
+public class Two
 {
     public static void main(String[] args) throws IOException
     {
