@@ -8,6 +8,8 @@ public class Main1
 {
     public static void main(String[] args) throws IOException
     {
+        long start = System.currentTimeMillis();
+
         Scanner scan = new Scanner(new File("./input2.txt"));
 
         String t = "+3 +3 +4 -2 -4";
@@ -45,5 +47,9 @@ public class Main1
             }
         }
         System.out.println(count);
+
+        long stop = System.currentTimeMillis();
+
+        System.out.println("Took " + (stop - start) + " ns");
     }
 }
