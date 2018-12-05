@@ -8,7 +8,6 @@ public class One
     {
         Scanner in = getScanner(args);
         String test = in.next();
-        //String test = "dabAcCaBADcCcaDaA";
         boolean removed = true;
 
         while (removed)
