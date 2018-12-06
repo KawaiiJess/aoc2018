@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class One
+public class Solution
 {
     public static void main(String[] args)
     {
@@ -100,6 +100,7 @@ public class One
         max++;
         Cell[][] grid = new Cell[max][max];
 
+        //CALCULATE MANHATTAN DISTANCES AND GENERATE CELLS
         for (int[] coord : coords)
         {
             //System.out.println(Arrays.toString(coord));
@@ -134,6 +135,7 @@ public class One
 
         //printGrid(grid);
 
+        //COUNT FINITE AREAS
         long[] counts = new long[coords.size()];
         for (int i = 0; i < grid.length; i++)
         {
@@ -166,8 +168,31 @@ public class One
         Arrays.sort(counts);
         System.out.println(counts[counts.length - 1]);
 
-        long stop = System.currentTimeMillis();
 
+        //PART2
+        int totalMDist = 0;
+        int hashCount = 0;
+        for (int i = 0; i < grid.length; i++)
+        {
+            for (int j = 0; j < grid.length; j++)
+            {
+                for (int[] coord : coords)
+                {
+                    totalMDist += Math.abs(i-coord[1]) + Math.abs(j-coord[0]);
+                }
+                if (totalMDist < 10000)
+                {
+                    grid[i][j].name = 35;
+                    hashCount++;
+                }
+                totalMDist = 0;
+            }
+        }
+
+        //printGrid(grid);
+        System.out.println(hashCount);
+
+        long stop = System.currentTimeMillis();
         System.out.println("Took " + (stop - start) + " milliseconds");
     }
 
