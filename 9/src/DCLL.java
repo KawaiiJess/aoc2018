@@ -27,7 +27,7 @@ public class DCLL
     {
         int curNum = 1;
         int curElf = 0;
-        int[] scores = new int[elves];
+        long[] scores = new long[elves];
         Node cur = this.head;
 
         //Base case curNum == 1

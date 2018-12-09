@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class One
+public class BadSolution
 {
     public static void main(String[] args)
     {
@@ -38,7 +38,6 @@ public class One
 
             if (index == 0)
             {
-
                 list.add(curNum);
                 curNum++;
                 index++;
