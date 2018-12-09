@@ -6,9 +6,9 @@ public class Solution
     {
         int curNum = 1;
         int index = 0;
-        int last = 25;
+        int last = 71588;
         int curElf = 0;
-        int[] scores = new int[9];
+        int[] scores = new int[430];
 
         List<Integer> list = new ArrayList<>();
 
@@ -19,7 +19,6 @@ public class Solution
 
         while (curNum <= last)
         {
-            //System.out.println("CURRENT ELF: " + curElf);
             if (curNum % 23 == 0)
             {
                 scores[curElf] += curNum;
@@ -34,8 +33,10 @@ public class Solution
                 list.remove(index);
                 index = index % list.size();
                 curNum++;
+                curElf++;
                 //System.out.println("Index: " + index);
             }
+
             if (index == 0)
             {
 
@@ -45,19 +46,18 @@ public class Solution
                 curElf++;
                 //System.out.println("CURRENT ELF: " + curElf);
             }
-            if (curNum == 38)
-            {
-                System.out.println("blah");
-            }
+
             index = ((index + 1) % list.size()) + 1;
             list.add(index, curNum);
             curNum++;
             curElf = (curElf + 1) % scores.length;
-            System.out.println("Index: " + index);
-            System.out.println("CURRENT INDEX ITEM: " + list.get(index));
-            System.out.println(list.size());
+            //System.out.println("Index: " + index);
+            //System.out.println("CURRENT INDEX ITEM: " + list.get(index));
+            //System.out.println(list.size());
         }
-        System.out.println(Arrays.toString(scores));
-        System.out.println(list);
+        //System.out.println(Arrays.toString(scores));
+        //System.out.println(list);
+        Arrays.sort(scores);
+        System.out.println(scores[scores.length - 1]);
     }
 }
