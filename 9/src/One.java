@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class Solution
+public class One
 {
     public static void main(String[] args)
     {
         int curNum = 1;
         int index = 0;
-        int last = 71588;
+        int last = 7158800;
         int curElf = 0;
         int[] scores = new int[430];
 
@@ -14,11 +14,13 @@ public class Solution
 
         list.add(0);
 
-        //Next marble placed always skips one index.
-        //If we're at index 1, we next place at index 3
-
         while (curNum <= last)
         {
+            if (curNum % 1000000 == 0)
+            {
+                System.out.println(curNum);
+            }
+
             if (curNum % 23 == 0)
             {
                 scores[curElf] += curNum;
@@ -28,13 +30,10 @@ public class Solution
                     index = list.size() - Math.abs(index);
                 }
                 scores[curElf] += list.get(index);
-                //System.out.println("REMOVED: " + list.get(index));
-                //System.out.println("Index: " + index);
                 list.remove(index);
                 index = index % list.size();
                 curNum++;
                 curElf++;
-                //System.out.println("Index: " + index);
             }
 
             if (index == 0)
@@ -44,19 +43,13 @@ public class Solution
                 curNum++;
                 index++;
                 curElf++;
-                //System.out.println("CURRENT ELF: " + curElf);
             }
 
             index = ((index + 1) % list.size()) + 1;
             list.add(index, curNum);
             curNum++;
             curElf = (curElf + 1) % scores.length;
-            //System.out.println("Index: " + index);
-            //System.out.println("CURRENT INDEX ITEM: " + list.get(index));
-            //System.out.println(list.size());
         }
-        //System.out.println(Arrays.toString(scores));
-        //System.out.println(list);
         Arrays.sort(scores);
         System.out.println(scores[scores.length - 1]);
     }
