@@ -349,12 +349,10 @@ public class Solution
         String[] lines = input.split("\n");
         for (String line : lines)
         {
-            String[] halved = line.split("> ");
-            String left = halved[0].substring(halved[0].indexOf("<") + 1, halved[0].length());
-            String right = halved[1].substring(halved[1].indexOf("<") + 1, halved[1].length() - 1);
-            String[] pos = left.split(", ");
-            String[] vel = right.split(", ");
-            points.add(new int[]{Integer.parseInt(pos[0].trim()), Integer.parseInt(pos[1].trim()), Integer.parseInt(vel[0].trim()), Integer.parseInt(vel[1].trim())});
+            String[] pos = line.substring(line.indexOf("<") + 1, line.indexOf(">")).trim().split(", ");
+            String[] vel = line.substring(line.lastIndexOf("<") + 1, line.length() - 1).trim().split(", ");
+            points.add(new int[]{Integer.parseInt(pos[0].trim()), Integer.parseInt(pos[1].trim()),
+                    Integer.parseInt(vel[0].trim()), Integer.parseInt(vel[1].trim())});
         }
 
         //Stupid, but preventing long overflow
