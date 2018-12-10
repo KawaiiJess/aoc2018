@@ -437,20 +437,20 @@ public class Solution
             grid[p[1] - dy][p[0] - dx] = "#";
         }
 
-        printGrid(grid); //SOLUTION TO PART 1
+        printGrid(grid, len); //SOLUTION TO PART 1
         System.out.println(count); //SOLUTION TO PART 2
 
         long stop = System.currentTimeMillis();
         System.out.println("Took " + (stop - start) + " milliseconds");
     }
 
-    private static void printGrid(String[][] grid)
+    private static void printGrid(String[][] grid, int len)
     {
-        for (String[] aGrid : grid)
+        for (int i = 0; i < len; i++)
         {
             for (int j = 0; j < grid.length; j++)
             {
-                System.out.print(aGrid[j]);
+                System.out.print(grid[i][j]);
             }
             System.out.println();
         }
