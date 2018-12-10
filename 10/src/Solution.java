@@ -6,6 +6,8 @@ public class Solution
 {
     public static void main(String[] args)
     {
+        long start = System.currentTimeMillis();
+
         String input = "position=< 10775, -31651> velocity=<-1,  3>\n" +
                 "position=<-21064, -42262> velocity=< 2,  4>\n" +
                 "position=< 53217,  53247> velocity=<-5, -5>\n" +
@@ -437,6 +439,9 @@ public class Solution
 
         printGrid(grid); //SOLUTION TO PART 1
         System.out.println(count); //SOLUTION TO PART 2
+
+        long stop = System.currentTimeMillis();
+        System.out.println("Took " + (stop - start) + " milliseconds");
     }
 
     private static void printGrid(String[][] grid)
