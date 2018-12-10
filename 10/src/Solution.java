@@ -6,7 +6,6 @@ public class Solution
 {
     public static void main(String[] args)
     {
-        /*
         String input = " 10775 -31651 -1 3\n" +
                 "-21064 -42262 2 4\n" +
                 " 53217 53247 -5 -5\n" +
@@ -344,8 +343,7 @@ public class Solution
                 " 21376 -52876 -2 5\n" +
                 " 42596 -52870 -4 5\n" +
                 " 10775 -31649 -1 3";
-                */
-
+/*
         String input = "9 1 0 2\n" +
                 "7 0 -1 0\n" +
                 "3 -2 -1 1\n" +
@@ -377,23 +375,26 @@ public class Solution
                 "5 9 1 -2\n" +
                 "14 7 -2 0\n" +
                 "-3 6 2 -1";
-
+*/
         Scanner scan = new Scanner(input);
         List<int[]> points = new ArrayList<>();
 
         while (scan.hasNextLine())
         {
+            //Parsing the default input was annoying af
             String line = scan.nextLine();
             Scanner temp = new Scanner(line);
             points.add(new int[]{temp.nextInt(), temp.nextInt(), temp.nextInt(), temp.nextInt()});
         }
 
-        int area = Integer.MAX_VALUE;
+        long area = Integer.MAX_VALUE;
         int len = 0;
         int wid = 0;
+        int count = 0;
 
-        while(true)
+        while (true)
         {
+            count++;
             int xmin = Integer.MAX_VALUE;
             int xmax = Integer.MIN_VALUE;
             int ymin = Integer.MAX_VALUE;
@@ -404,37 +405,34 @@ public class Solution
                 p[1] = p[1] + p[3];
 
                 if (p[1] < xmin)
-                {
                     xmin = p[1];
-                }
                 if (p[1] > xmax)
-                {
                     xmax = p[1];
-                }
                 if (p[0] < ymin)
-                {
                     ymin = p[0];
-                }
                 if (p[0] > ymax)
-                {
                     ymax = p[0];
-                }
             }
             int l = xmax - xmin + 1;
             int w = ymax - ymin + 1;
 
-            int temp = l * w;
+            //Stupid, but preventing long overflow
+            if (count > 10000)
+            {
+                long temp = l * w;
 
-            if (temp < area)
-            {
-                area = temp;
-                len = l;
-                wid = w;
+                if (temp < area)
+                {
+                    area = temp;
+                    len = l;
+                    wid = w;
+                }
+                else
+                {
+                    break;
+                }
             }
-            else
-            {
-                break;
-            }
+
         }
 
         for (int[] p : points)
@@ -442,21 +440,22 @@ public class Solution
             p[0] = p[0] - p[2];
             p[1] = p[1] - p[3];
         }
-
+        count--;
         System.out.println(len);
         System.out.println(wid);
         System.out.println(area);
 
-        int adjust = 0;
+        int dx = 0;
+        int dy = 0;
         for (int[] p : points)
         {
-            if (p[0] < adjust)
-                adjust = p[0];
-            if (p[1] < adjust)
-                adjust = p[1];
+            if (p[0] < dx)
+                dx = p[0];
+            if (p[1] < dy)
+                dy = p[1];
         }
 
-        Cell[][] grid = new Cell[len + 2][wid + 2];
+        Cell[][] grid = new Cell[len + 1000][wid + 1000];
 
         for (int i = 0; i < grid.length; i++)
         {
@@ -468,10 +467,11 @@ public class Solution
 
         for (int[] p : points)
         {
-            grid[p[1] + adjust][p[0] + adjust] = new Cell("#", p[2], p[3]);
+            grid[p[1]][p[0]] = new Cell("#", p[2], p[3]);
         }
 
         printGrid(grid);
+        System.out.println(count);
     }
 
     private static void printGrid(Cell[][] grid)
