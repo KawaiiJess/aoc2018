@@ -427,7 +427,7 @@ public class Solution
         {
             for (int j = 0; j < grid.length; j++)
             {
-                grid[i][j] = ".";
+                grid[i][j] = " ";
             }
         }
 
