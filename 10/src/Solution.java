@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,6 +7,7 @@ public class Solution
 {
     public static void main(String[] args)
     {
+
         String input = " 10775 -31651 -1 3\n" +
                 "-21064 -42262 2 4\n" +
                 " 53217 53247 -5 -5\n" +
@@ -387,7 +389,8 @@ public class Solution
             points.add(new int[]{temp.nextInt(), temp.nextInt(), temp.nextInt(), temp.nextInt()});
         }
 
-        long area = Integer.MAX_VALUE;
+        //Stupid, but preventing long overflow
+        BigInteger area = BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(Long.MAX_VALUE));
         int len = 0;
         int wid = 0;
         int count = 0;
@@ -416,37 +419,30 @@ public class Solution
             int l = xmax - xmin + 1;
             int w = ymax - ymin + 1;
 
-            //Stupid, but preventing long overflow
-            if (count > 10000)
+            BigInteger t = BigInteger.valueOf(l).multiply(BigInteger.valueOf(w));
+            if (t.compareTo(area) < 0)
             {
-                long temp = l * w;
-
-                if (temp < area)
-                {
-                    area = temp;
-                    len = l;
-                    wid = w;
-                }
-                else
-                {
-                    break;
-                }
+                area = t;
+                len = l;
+                wid = w;
             }
-
+            else
+            {
+                break;
+            }
         }
 
+        //Get back to positions with smallest area
         for (int[] p : points)
         {
             p[0] = p[0] - p[2];
             p[1] = p[1] - p[3];
         }
         count--;
-        System.out.println(len);
-        System.out.println(wid);
-        System.out.println(area);
 
-        int dx = 0;
-        int dy = 0;
+        //Find offsets for entering into grid so the word is top-left.
+        int dx = Integer.MAX_VALUE;
+        int dy = Integer.MAX_VALUE;
         for (int[] p : points)
         {
             if (p[0] < dx)
@@ -455,26 +451,29 @@ public class Solution
                 dy = p[1];
         }
 
-        Cell[][] grid = new Cell[len + 1000][wid + 1000];
+        int max = Math.max(len, wid);
+        String[][] grid = new String[max][max];
 
+        //Populate with default values
         for (int i = 0; i < grid.length; i++)
         {
             for (int j = 0; j < grid.length; j++)
             {
-                grid[i][j] = new Cell(".", 0, 0);
+                grid[i][j] = ".";
             }
         }
 
+        //Enter data
         for (int[] p : points)
         {
-            grid[p[1]][p[0]] = new Cell("#", p[2], p[3]);
+            grid[p[1] - dy][p[0] - dx] = "#";
         }
 
-        printGrid(grid);
-        System.out.println(count);
+        printGrid(grid); //SOLUTION TO PART 1
+        System.out.println(count); //SOLUTION TO PART 2
     }
 
-    private static void printGrid(Cell[][] grid)
+    private static void printGrid(String[][] grid)
     {
         for (int i = 0; i < grid.length; i++)
         {
