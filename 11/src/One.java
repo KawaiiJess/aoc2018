@@ -7,99 +7,95 @@ public class One
         //POPULATE GRID
         Cell[][] grid = new Cell[301][301];
 
-        for (int i = 1; i < grid[0].length; i++)
+        for (int y = 1; y < grid[0].length; y++)
         {
-            for (int j = 1; j < grid[0].length; j++)
+            for (int x = 1; x < grid[0].length; x++)
             {
-                grid[i][j] = new Cell();
+                grid[x][y] = new Cell();
             }
         }
 
         //WALK GRID TO PLACE VALUES AND TOTALS
-        for (int i = 1; i < grid[0].length; i++)
+        for (int y = 1; y < grid[0].length; y++)
         {
-            for (int j = 1; j < grid[0].length; j++)
+            for (int x = 1; x < grid[0].length; x++)
             {
-                int rack;
-                int pl;
-                if (grid[i][j].value == 0)
-                {
-                    //STORE VALUE AT EACH
-                    rack = j + 10;
-                    pl = rack * i;
-                    pl = pl + serial;
-                    pl = pl * rack;
+                //STORE VALUE AT EACH
+                int rack = x + 10;
+                int pl = ((rack * y) + serial) * rack;
 
-                    if (pl < 100)
-                    {
-                        grid[i][j].value = -5;
-                    }
-                    else
-                    {
-                        pl = pl / 100;
-                        pl = pl % 10;
-                        grid[i][j].value = pl - 5;
-                    }
+                if (pl < 100)
+                {
+                    grid[x][y].value = -5;
                 }
-
-                //STORE TOTALS IN 3X3 AREA AND PLACE VALUES AHEAD OF I/J LOOP
-                for (int k = i; k < i + 3 && k < grid[i].length - 2; k++)
+                else
                 {
-                    for (int l = j; l < j + 3 && l < grid[j].length - 2; l++)
-                    {
-                        rack = l + 10;
-                        pl = rack * k;
-                        pl = pl + serial;
-                        pl = pl * rack;
+                    pl = pl / 100;
+                    pl = pl % 10;
+                    grid[x][y].value = pl - 5;
+                }
+            }
+        }
 
-                        if (pl < 100)
-                        {
-                            grid[i][j].total += -5;
-                            grid[l][k].value = -5;
-                        }
-                        else
-                        {
-                            pl = pl / 100;
-                            pl = pl % 10;
-                            grid[i][j].total += pl - 5;
-                            grid[l][k].value = pl - 5;
-                        }
+        //CALCULATE 3X3 TOTALS
+        for (int y = 1; y < grid[0].length; y++)
+        {
+            for (int x = 1; x < grid[0].length; x++)
+            {
+                for (int yd = y; yd < y + 3 && yd < grid[y].length - 2; yd++)
+                {
+                    for (int xd = x; xd < x + 3 && xd < grid[x].length - 2; xd++)
+                    {
+                        grid[x][y].total += grid[xd][yd].value;
                     }
                 }
             }
         }
-        //printGridValue(grid);
-        //printGridTotal(grid);
 
-        int row = 0;
-        int col = 0;
-        int highest = 0;
+        int x1 = 0;
+        int y1 = 0;
+        int high = 0;
 
         //WALK GRID AGAIN
-        for (int i = 1; i < grid[0].length; i++)
+        for (int y = 1; y < grid[0].length; y++)
         {
-            for (int j = 1; j < grid[0].length; j++)
+            for (int x = 1; x < grid[0].length; x++)
             {
-                if (grid[i][j].total > highest)
+                if (grid[x][y].total > high)
                 {
-                    highest = grid[i][j].total;
-                    row = i;
-                    col = j;
+                    high = grid[x][y].total;
+                    x1 = x;
+                    y1 = y;
                 }
             }
         }
-        printSmallGrid(grid, row, col);
-        System.out.println(col + "," + row);
-        System.out.println("HIGHEST: " + highest);
+
+        printSmallGrid(grid, x1, y1);
+        System.out.println(x1 + "," + y1);
+        System.out.println("HIGHEST: " + high);
     }
 
+    private static void printSmallGrid(Cell[][] grid, int x, int y)
+    {
+        for (int yd = y - 1; yd < y + 4; yd++)
+        {
+            for (int xd = x - 1; xd < x + 4; xd++)
+            {
+                int val = grid[xd][yd].value;
+                System.out.printf("%3d", val);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+/*
     private static void printGridValue(Cell[][] grid)
     {
-        for (int i = 1; i < grid.length; i++)
+        for (int y = 1; y < grid.length; y++)
         {
-            for (int j = 1; j < grid.length; j++)
+            for (int x = 1; x < grid.length; x++)
             {
-                int val = grid[i][j].value;
+                int val = grid[x][y].value;
                 System.out.printf("%3d", val);
             }
             System.out.println();
@@ -109,29 +105,16 @@ public class One
 
     private static void printGridTotal(Cell[][] grid)
     {
-        for (int i = 1; i < grid.length; i++)
+        for (int y = 1; y < grid.length; y++)
         {
-            for (int j = 1; j < grid.length; j++)
+            for (int x = 1; x < grid.length; x++)
             {
-                int val = grid[i][j].total;
+                int val = grid[x][y].total;
                 System.out.printf("%4d", val);
             }
             System.out.println();
         }
         System.out.println();
     }
-
-    private static void printSmallGrid(Cell[][] grid, int row, int col)
-    {
-        for (int i = row - 1; i < row + 4; i++)
-        {
-            for (int j = col - 1; j < col + 4; j++)
-            {
-                int val = grid[j][i].value;
-                System.out.printf("%3d", val);
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
+*/
 }
