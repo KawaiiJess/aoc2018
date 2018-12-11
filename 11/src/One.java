@@ -1,4 +1,4 @@
-public class Solution
+public class One
 {
     public static void main(String[] args)
     {
@@ -127,7 +127,7 @@ public class Solution
         {
             for (int j = col - 1; j < col + 4; j++)
             {
-                int val = grid[i][j].value;
+                int val = grid[j][i].value;
                 System.out.printf("%3d", val);
             }
             System.out.println();
