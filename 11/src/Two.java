@@ -39,6 +39,11 @@ public class Two
         }
 
         //WALK GRID AGAIN TO CALCULATE SUBGRIDS (Max sub-grid size of 50)
+        /*
+        Could be rewritten to calculate size x
+            On next iteration x+1, only calculate bottom & right edges
+                Add x to x+1 two sides for fewer element updates.
+         */
         int maxGrid = 50;
         for (int y = 1; y < grid[0].length; y++)
         {
