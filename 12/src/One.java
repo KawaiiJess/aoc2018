@@ -68,14 +68,14 @@ public class One
                 String value = parts[1];
                 if (ext.contains(rule))
                 {
-                    int first = ext.indexOf(rule) + 2;
+                    int first = ext.indexOf(rule);
                     if (value.equals("#"))
                     {
-                        result[first] = 1;
+                        result[first + 2] = 1;
                     }
                     else
                     {
-                        result[first] = 0;
+                        result[first + 2] = 0;
                     }
 
                     while (first <= ext.lastIndexOf(rule))
