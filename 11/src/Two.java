@@ -49,17 +49,17 @@ public class Two
         {
             for (int x = 1; x < grid[0].length; x++)
             {
-                for (int yd = y; yd < y + maxGrid && yd < grid[y].length; yd++)
+                for (int dy = y; dy < y + maxGrid && dy < grid[y].length; dy++)
                 {
-                    for (int xd = x; xd < x + maxGrid && xd < grid[x].length; xd++)
+                    for (int dx = x; dx < x + maxGrid && dx < grid[x].length; dx++)
                     {
                         //Cool ass math to sum the variable size grids into a 1D array
-                        int maxx = xd - x + 1;
-                        int maxy = yd - y + 1;
+                        int maxx = dx - x + 1;
+                        int maxy = dy - y + 1;
                         int max = Math.max(maxx, maxy);
                         for (int i = max; i < maxGrid + 1; i++)
                         {
-                            grid[x][y].setTotals(i, grid[xd][yd].value);
+                            grid[x][y].setTotals(i, grid[dx][dy].value);
                         }
                     }
                 }
@@ -101,11 +101,11 @@ public class Two
 
     private static void printSmallGrid(Cell[][] grid, int x, int y, int index)
     {
-        for (int yd = y - 1; yd < y + index + 1; yd++)
+        for (int dy = y - 1; dy < y + index + 1; dy++)
         {
-            for (int xd = x - 1; xd < x + index + 1; xd++)
+            for (int dx = x - 1; dx < x + index + 1; dx++)
             {
-                int val = grid[xd][yd].value;
+                int val = grid[dx][dy].value;
                 System.out.printf("%3d", val);
             }
             System.out.println();
