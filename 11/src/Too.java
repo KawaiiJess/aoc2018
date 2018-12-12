@@ -63,6 +63,7 @@ public class Too
 
         int x1 = 0;
         int y1 = 0;
+        int index = 0;
         int high = 0;
 
         //WALK GRID AGAIN
@@ -70,17 +71,22 @@ public class Too
         {
             for (int x = 1; x < grid[0].length; x++)
             {
-                if (grid[x][y].total > high)
+                int[] temp = grid[x][y].totals;
+                for (int i = 1; i < temp.length; i++)
                 {
-                    high = grid[x][y].total;
-                    x1 = x;
-                    y1 = y;
+                    if (temp[i] > high)
+                    {
+                        high = temp[i];
+                        index = i;
+                        x1 = x;
+                        y1 = y;
+                    }
                 }
             }
         }
 
         printSmallGrid(grid, x1, y1);
-        System.out.println(x1 + "," + y1);
+        System.out.println(x1 + "," + y1 + "," + index);
         System.out.println("HIGHEST: " + high);
         System.out.println(Arrays.toString(grid[x1][y1].totals));
     }
