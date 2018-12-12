@@ -1,10 +1,12 @@
 import java.util.Arrays;
 
-public class Too
+public class Two
 {
     public static void main(String[] args)
     {
-        int serial = 18;
+        long start = System.currentTimeMillis();
+
+        int serial = 1723;
 
         //POPULATE GRID
         Cell[][] grid = new Cell[301][301];
@@ -39,20 +41,21 @@ public class Too
             }
         }
 
-        //CALCULATE 3X3 TOTALS
+        int gs = 300;
+        //CALCULATE TOTALS
         for (int y = 1; y < grid[0].length; y++)
         {
             for (int x = 1; x < grid[0].length; x++)
             {
-                for (int yd = y; yd < y + 3 && yd < grid[y].length - 2; yd++)
+                for (int yd = y; yd < y + gs && yd < grid[y].length; yd++)
                 {
-                    for (int xd = x; xd < x + 3 && xd < grid[x].length - 2; xd++)
+                    for (int xd = x; xd < x + gs && xd < grid[x].length; xd++)
                     {
                         int maxx = xd - x + 1;
                         int maxy = yd - y + 1;
                         int max = Math.max(maxx, maxy);
                         grid[x][y].total += grid[xd][yd].value;
-                        for (int i = max; i < 4; i++)
+                        for (int i = max; i < gs + 1; i++)
                         {
                             grid[x][y].setTotals(i, grid[xd][yd].value);
                         }
@@ -89,6 +92,10 @@ public class Too
         System.out.println(x1 + "," + y1 + "," + index);
         System.out.println("HIGHEST: " + high);
         System.out.println(Arrays.toString(grid[x1][y1].totals));
+        //290,284,15 IS WRONG
+
+        long stop = System.currentTimeMillis();
+        System.out.println("Took " + (stop - start) + " milliseconds");
     }
 
     private static void printSmallGrid(Cell[][] grid, int x, int y)
@@ -99,6 +106,20 @@ public class Too
             {
                 int val = grid[xd][yd].value;
                 System.out.printf("%3d", val);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private static void printGridValue(Cell[][] grid)
+    {
+        for (int y = 1; y < grid.length; y++)
+        {
+            for (int x = 1; x < grid.length; x++)
+            {
+                int val = grid[x][y].value;
+                System.out.printf("%5d", val);
             }
             System.out.println();
         }
