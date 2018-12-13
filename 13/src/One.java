@@ -1,12 +1,13 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class One
 {
     public static void main(String[] args)
     {
-        /*
         String input = "                           /-------------------------------------------------------------------------------------------------\\                        \n" +
                 " /-------------------------+--\\/---------------------------------------------------------------------------------------------+----------\\             \n" +
                 " |                       /-+--++---------------------------------------------------------------------------------------------+------\\   |             \n" +
@@ -157,33 +158,75 @@ public class One
                 "              \\---------------------------+-------------------------------+-+-------------------------------------+--/                |           |   \n" +
                 "                                          |                               | |                                     |                   \\-----------/   \n" +
                 "                                          \\-------------------------------/ \\-------------------------------------/                                   ";
-        */
-        /*
-        String input = "/->-\\        \n" +
-                "|   |  /----\\\n" +
-                "| /-+--+-\\  |\n" +
-                "| | |  | v  |\n" +
-                "\\-+-/  \\-+--/\n" +
-                "  \\------/   ";
-                */
 
-        String input = "/-<-\\        \n" +
+        String example = "/->-\\        \n" +
                 "|   |  /----\\\n" +
                 "| /-+--+-\\  |\n" +
                 "| | |  | v  |\n" +
                 "\\-+-/  \\-+--/\n" +
                 "  \\------/   ";
+
+        String test1 = "/-<-\\        \n" +
+                "|   |  /----\\\n" +
+                "| /-+--+-\\  |\n" +
+                "| | |  | v  |\n" +
+                "\\-+-/  \\-+--/\n" +
+                "  \\------/   ";
+
+        String test2 = ">---<";
+
+        String test3 = ">\\   \n" +
+                " |   \n" +
+                " |   \n" +
+                " |   \n" +
+                " \\<  ";
+
+        String test4 = "v    \n" +
+                "|    \n" +
+                "|    \n" +
+                "|    \n" +
+                "^    ";
+
+        String test5 = ">\\     \n" +
+                " |     \n" +
+                " \\---\\  \n" +
+                "     |   \n" +
+                "     \\<";
+
+        String test6 = "     /<\n" +
+                "     | \n" +
+                " /---/ \n" +
+                " |     \n" +
+                ">/     ";
+
+        String test7 = "    +-<\n" +
+                "    +  \n" +
+                "  +-+  \n" +
+                "  +    \n" +
+                ">-+    ";
+
+        String test8 = "        +-<\n" +
+                "        +  \n" +
+                "      +-+  \n" +
+                "      +    \n" +
+                "    +-+    \n" +
+                "    +      \n" +
+                "  +-+      \n" +
+                "  +        \n" +
+                ">-+        ";
+
+        String test9 = "v  /--\\\n" +
+                "|  |  |\n" +
+                "|  |  |\n" +
+                "|  |  |\n" +
+                "\\--/  ^";
 
 
         String[] lines = input.split("\n");
 
-        int len = 0;
-        for (String s : lines)
-        {
-            if (s.length() > len)
-                len = s.length();
-        }
-        int max = Math.max(len, lines.length);
+        int width = lines[0].length();
+        int height = lines.length;
+        int max = Math.max(width, height);
 
         Cell[][] grid = new Cell[max][max];
 
@@ -200,7 +243,7 @@ public class One
 
         for (int y = 0; y < lines.length; y++)
         {
-            for (int x = 0; x < grid[0].length; x++)
+            for (int x = 0; x < lines[0].length(); x++)
             {
                 if (lines[y].charAt(x) == '+')
                     grid[x][y].isCross = true;
@@ -244,10 +287,25 @@ public class One
         boolean crash = false;
         int a = 0;
 
-        printGrid(grid);
+        System.out.println();
+        for (Point cart : carts)
+        {
+            System.out.print(cart.toString() + " ");
+        }
+        System.out.println();
+        printGrid(grid, lines);
 
         while (true)
         {
+            carts.sort(new comparePoints());
+
+            System.out.println();
+            for (Point cart : carts)
+            {
+                System.out.print(cart.toString() + " ");
+            }
+            System.out.println();
+
             for (Point cart : carts)
             {
                 int x = (int) cart.getX();
@@ -264,7 +322,7 @@ public class One
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x][y + 1].isCrash = true;
-                            printGrid(grid);
+                            printGrid(grid, lines);
                             System.exit(0);
                         }
                         grid[x][y + 1].cart = new Cart(0, nextDir, true);
@@ -279,7 +337,7 @@ public class One
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x - 1][y].isCrash = true;
-                            printGrid(grid);
+                            printGrid(grid, lines);
                             System.exit(0);
                         }
                         grid[x - 1][y].cart = new Cart(1, nextDir, true);
@@ -294,7 +352,7 @@ public class One
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x][y - 1].isCrash = true;
-                            printGrid(grid);
+                            printGrid(grid, lines);
                             System.exit(0);
                         }
                         grid[x][y - 1].cart = new Cart(2, nextDir, true);
@@ -309,7 +367,7 @@ public class One
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x + 1][y].isCrash = true;
-                            printGrid(grid);
+                            printGrid(grid, lines);
                             System.exit(0);
                         }
                         grid[x + 1][y].cart = new Cart(3, nextDir, true);
@@ -319,7 +377,7 @@ public class One
                     }
                 }
             }
-            printGrid(grid);
+            printGrid(grid, lines);
             a++;
         }
     }
@@ -435,9 +493,40 @@ public class One
         }
     }
 
-    static void printGrid(Cell[][] grid)
+    private static class comparePoints implements Comparator<Point>
     {
-        for (int y = 0; y < grid[0].length; y++)
+        public int compare(final Point a, final Point b)
+        {
+            if (a.getY() < b.getY())
+            {
+                return -1;
+            }
+            else if (a.getY() > b.getY())
+            {
+                return 1;
+            }
+            else if (a.getY() == b.getY())
+            {
+                if (a.getX() < b.getX())
+                {
+                    return -1;
+                }
+                else if (a.getX() > b.getX())
+                {
+                    return 1;
+                }
+                else if (a.getX() == b.getX())
+                {
+                    return 0;
+                }
+            }
+            return 0;
+        }
+    }
+
+    static void printGrid(Cell[][] grid, String[] lines)
+    {
+        for (int y = 0; y < lines.length; y++)
         {
             for (int x = 0; x < grid[0].length; x++)
             {
