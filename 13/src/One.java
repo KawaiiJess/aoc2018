@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -284,101 +283,74 @@ public class One
             }
         }
 
-        boolean crash = false;
-        int a = 0;
-
-        System.out.println();
-        for (Point cart : carts)
-        {
-            System.out.print(cart.toString() + " ");
-        }
-        System.out.println();
         printGrid(grid, lines);
 
+        outerloop:
         while (true)
         {
             carts.sort(new comparePoints());
-
-            System.out.println();
-            for (Point cart : carts)
-            {
-                System.out.print(cart.toString() + " ");
-            }
-            System.out.println();
 
             for (Point cart : carts)
             {
                 int x = (int) cart.getX();
                 int y = (int) cart.getY();
 
-                if (grid[x][y].cart.occupied)
+                int dir = grid[x][y].cart.dir;
+                int nextDir = grid[x][y].cart.nextDir;
+                if (dir == 0)
                 {
-                    int dir = grid[x][y].cart.dir;
-                    int nextDir = grid[x][y].cart.nextDir;
-                    if (dir == 0)
+                    if (checkCart(grid, x, y + 1))
                     {
-                        crash = checkCart(grid, x, y + 1);
-                        if (crash)
-                        {
-                            grid[x][y].cart.occupied = false;
-                            grid[x][y + 1].isCrash = true;
-                            printGrid(grid, lines);
-                            System.exit(0);
-                        }
-                        grid[x][y + 1].cart = new Cart(0, nextDir, true);
-                        checkDir(grid[x][y + 1]);
                         grid[x][y].cart.occupied = false;
-                        cart.setLocation(new Point(x, y + 1));
+                        grid[x][y + 1].isCrash = true;
+                        break outerloop;
                     }
-                    else if (dir == 1)
+                    grid[x][y + 1].cart = new Cart(0, nextDir, true);
+                    checkDir(grid[x][y + 1]);
+                    grid[x][y].cart.occupied = false;
+                    cart.setLocation(new Point(x, y + 1));
+                }
+                else if (dir == 1)
+                {
+                    if (checkCart(grid, x - 1, y))
                     {
-                        crash = checkCart(grid, x - 1, y);
-                        if (crash)
-                        {
-                            grid[x][y].cart.occupied = false;
-                            grid[x - 1][y].isCrash = true;
-                            printGrid(grid, lines);
-                            System.exit(0);
-                        }
-                        grid[x - 1][y].cart = new Cart(1, nextDir, true);
-                        checkDir(grid[x - 1][y]);
                         grid[x][y].cart.occupied = false;
-                        cart.setLocation(new Point(x - 1, y));
+                        grid[x - 1][y].isCrash = true;
+                        break outerloop;
                     }
-                    else if (dir == 2)
+                    grid[x - 1][y].cart = new Cart(1, nextDir, true);
+                    checkDir(grid[x - 1][y]);
+                    grid[x][y].cart.occupied = false;
+                    cart.setLocation(new Point(x - 1, y));
+                }
+                else if (dir == 2)
+                {
+                    if (checkCart(grid, x, y - 1))
                     {
-                        crash = checkCart(grid, x, y - 1);
-                        if (crash)
-                        {
-                            grid[x][y].cart.occupied = false;
-                            grid[x][y - 1].isCrash = true;
-                            printGrid(grid, lines);
-                            System.exit(0);
-                        }
-                        grid[x][y - 1].cart = new Cart(2, nextDir, true);
-                        checkDir(grid[x][y - 1]);
                         grid[x][y].cart.occupied = false;
-                        cart.setLocation(new Point(x, y - 1));
+                        grid[x][y - 1].isCrash = true;
+                        break outerloop;
                     }
-                    else if (dir == 3)
+                    grid[x][y - 1].cart = new Cart(2, nextDir, true);
+                    checkDir(grid[x][y - 1]);
+                    grid[x][y].cart.occupied = false;
+                    cart.setLocation(new Point(x, y - 1));
+                }
+                else if (dir == 3)
+                {
+                    if (checkCart(grid, x + 1, y))
                     {
-                        crash = checkCart(grid, x + 1, y);
-                        if (crash)
-                        {
-                            grid[x][y].cart.occupied = false;
-                            grid[x + 1][y].isCrash = true;
-                            printGrid(grid, lines);
-                            System.exit(0);
-                        }
-                        grid[x + 1][y].cart = new Cart(3, nextDir, true);
-                        checkDir(grid[x + 1][y]);
                         grid[x][y].cart.occupied = false;
-                        cart.setLocation(new Point(x + 1, y));
+                        grid[x + 1][y].isCrash = true;
+                        break outerloop;
                     }
+                    grid[x + 1][y].cart = new Cart(3, nextDir, true);
+                    checkDir(grid[x + 1][y]);
+                    grid[x][y].cart.occupied = false;
+                    cart.setLocation(new Point(x + 1, y));
                 }
             }
             printGrid(grid, lines);
-            a++;
         }
     }
 
@@ -493,6 +465,19 @@ public class One
         }
     }
 
+    static void printGrid(Cell[][] grid, String[] lines)
+    {
+        for (int y = 0; y < lines.length; y++)
+        {
+            for (int x = 0; x < grid[0].length; x++)
+            {
+                System.out.print(grid[x][y].toString());
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     private static class comparePoints implements Comparator<Point>
     {
         public int compare(final Point a, final Point b)
@@ -522,18 +507,5 @@ public class One
             }
             return 0;
         }
-    }
-
-    static void printGrid(Cell[][] grid, String[] lines)
-    {
-        for (int y = 0; y < lines.length; y++)
-        {
-            for (int x = 0; x < grid[0].length; x++)
-            {
-                System.out.print(grid[x][y].toString());
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 }
