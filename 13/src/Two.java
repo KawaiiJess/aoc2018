@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Two
 {
+    static boolean DEBUG = false;
     public static void main(String[] args)
     {
         String input = "                           /-------------------------------------------------------------------------------------------------\\                        \n" +
@@ -284,11 +285,15 @@ public class Two
         }
 
         boolean crash = false;
+        int tick = 0;
 
         System.out.println();
 
         while (true)
         {
+            tick++;
+            if (tick > 3921)
+                printGrid(grid, lines);
             carts.sort(new comparePoints());
 
             for (Point cart : carts)
@@ -366,7 +371,6 @@ public class Two
                             grid[x][y].cart.occupied = false;
                             cart.setLocation(new Point(x + 1, y));
                         }
-
                     }
                 }
             }
@@ -393,43 +397,25 @@ public class Two
     }
 
     /*
-    WRONG (LOGIC FROM PART 1 WITHOUT EXITING PROGRAM FOR CRASHES)
-    CRASH AT: 64,57
-CRASH AT: 111,100
-CRASH AT: 63,57
-CRASH AT: 31,57
-CRASH AT: 75,87
-CRASH AT: 75,87 This three way collision shouldn't happen.
-CRASH AT: 119,28
-CRASH AT: 110,100
-CRASH AT: 31,56
-java.awt.Point[x=149,y=123]
---------------------
-    WRONG (SET CRASHED CARTS TO UNOCCUPIED AND SKIPPED THEM IN LOOP)
-    CRASH AT: 64,57
-CRASH AT: 111,100
-CRASH AT: 31,57
-CRASH AT: 75,87
-CRASH AT: 119,28
-CRASH AT: 26,74
-CRASH AT: 91,56
-CRASH AT: 59,40
-java.awt.Point[x=135,y=10]
---------------------
-    135,11 WAS WRONG TOO
---------------------
-    WRONG (MOVED CRASHED CARTS ONTO THE ACTUAL CRASH SITE FOR SORTING PURPOSES)
-    CRASH AT: 64,57
-CRASH AT: 111,100
-CRASH AT: 31,57
-CRASH AT: 75,87
-CRASH AT: 119,28
-CRASH AT: 26,74
-CRASH AT: 12,56
-CRASH AT: 19,68
-java.awt.Point[x=16,y=20]
---------------------
-    16,21 WAS WRONG TOO
+Collision log
+
+v collided with v at 64,57 on tick 124
+    15 carts left.
+v collided with ^ at 111,100 on tick 293
+    13 carts left.
+> collided with v at 31,57 on tick 415
+    11 carts left.
+^ collided with v at 75,87 on tick 523
+    9 carts left.
+> collided with < at 119,28 on tick 801
+    7 carts left.
+v collided with ^ at 26,74 on tick 933
+    5 carts left.
+> collided with < at 90,56 on tick 3924
+    3 carts left.
+< collided with > at 58,42 on tick 10830
+
+Last cart @ 136,8
      */
 
     static int numWorking(Cell[][] grid)
@@ -457,6 +443,10 @@ java.awt.Point[x=16,y=20]
         if (grid[x][y].cart.occupied)
         {
             System.out.println("CRASH AT: " + x + "," + y);
+            if (x == 26 && y == 74)
+            {
+                DEBUG = true;
+            }
             return true;
         }
         return false;
@@ -581,29 +571,18 @@ java.awt.Point[x=16,y=20]
         public int compare(final Point a, final Point b)
         {
             if (a.getY() < b.getY())
-            {
                 return -1;
-            }
             else if (a.getY() > b.getY())
-            {
                 return 1;
-            }
-            else if (a.getY() == b.getY())
+            else
             {
                 if (a.getX() < b.getX())
-                {
                     return -1;
-                }
                 else if (a.getX() > b.getX())
-                {
                     return 1;
-                }
-                else if (a.getX() == b.getX())
-                {
+                else
                     return 0;
-                }
             }
-            return 0;
         }
     }
 }
