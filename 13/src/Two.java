@@ -307,15 +307,15 @@ public class Two
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x][y + 1].cart.occupied = false;
-                            System.out.println("NUMBER OF CARTS STILL WORKING: " + numWorking(grid));
                         }
                         else
                         {
                             grid[x][y + 1].cart = new Cart(0, nextDir, true);
                             checkDir(grid[x][y + 1]);
                             grid[x][y].cart.occupied = false;
+                            cart.setLocation(new Point(x, y + 1));
                         }
-                        cart.setLocation(new Point(x, y + 1));
+
                     }
                     else if (dir == 1)
                     {
@@ -324,15 +324,15 @@ public class Two
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x - 1][y].cart.occupied = false;
-                            System.out.println("NUMBER OF CARTS STILL WORKING: " + numWorking(grid));
                         }
                         else
                         {
                             grid[x - 1][y].cart = new Cart(1, nextDir, true);
                             checkDir(grid[x - 1][y]);
                             grid[x][y].cart.occupied = false;
+                            cart.setLocation(new Point(x - 1, y));
                         }
-                        cart.setLocation(new Point(x - 1, y));
+
                     }
                     else if (dir == 2)
                     {
@@ -341,15 +341,15 @@ public class Two
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x][y - 1].cart.occupied = false;
-                            System.out.println("NUMBER OF CARTS STILL WORKING: " + numWorking(grid));
                         }
                         else
                         {
                             grid[x][y - 1].cart = new Cart(2, nextDir, true);
                             checkDir(grid[x][y - 1]);
                             grid[x][y].cart.occupied = false;
+                            cart.setLocation(new Point(x, y - 1));
                         }
-                        cart.setLocation(new Point(x, y - 1));
+
                     }
                     else if (dir == 3)
                     {
@@ -358,15 +358,15 @@ public class Two
                         {
                             grid[x][y].cart.occupied = false;
                             grid[x + 1][y].cart.occupied = false;
-                            System.out.println("NUMBER OF CARTS STILL WORKING: " + numWorking(grid));
                         }
                         else
                         {
                             grid[x + 1][y].cart = new Cart(3, nextDir, true);
                             checkDir(grid[x + 1][y]);
                             grid[x][y].cart.occupied = false;
+                            cart.setLocation(new Point(x + 1, y));
                         }
-                        cart.setLocation(new Point(x + 1, y));
+
                     }
                 }
             }
@@ -385,7 +385,7 @@ public class Two
             }
             if (working == 1)
             {
-                //printGrid(grid, lines);
+                printGrid(grid, lines);
                 System.out.println(carts.get(index).getLocation().toString());
                 break;
             }
