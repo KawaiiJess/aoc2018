@@ -5,6 +5,8 @@ public class Two
 {
     public static void main(String[] args)
     {
+        long start = System.currentTimeMillis();
+
         List<Integer> arr = new ArrayList<>();
         arr.add(3);
         arr.add(7);
@@ -57,5 +59,8 @@ public class Two
         }
         String actual = out.substring(0, out.indexOf(input));
         System.out.println("RECIPES: " + actual.length());
+
+        long stop = System.currentTimeMillis();
+        System.out.println("Took " + (stop - start) + " milliseconds");
     }
 }
